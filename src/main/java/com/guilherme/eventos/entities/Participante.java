@@ -21,8 +21,8 @@ public class Participante {
 
     @ManyToMany
     @JoinTable(name = "tb_participantes_atividades",
-            joinColumns = @JoinColumn(name = "atividades_id"),
-            inverseJoinColumns = @JoinColumn(name = "participantes_id"))
+            joinColumns = @JoinColumn(name = "participantes_id"),
+            inverseJoinColumns = @JoinColumn(name = "atividades_id"))
     private List<Atividade> atividades = new ArrayList<>();
 
     public Participante() {

@@ -21,7 +21,10 @@ public class Atividade {
 
     private Double preco;
 
-    @ManyToMany(mappedBy = "atividades")
+    @ManyToMany
+    @JoinTable(name = "tb_participantes_atividades",
+            joinColumns = @JoinColumn(name = "atividades_id"),
+            inverseJoinColumns = @JoinColumn(name = "participantes_id"))
     private Set<Participante> participantes = new HashSet<>();
 
     @ManyToOne
