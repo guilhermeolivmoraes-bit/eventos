@@ -2,10 +2,12 @@ package com.guilherme.eventos.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_participante")
+@Table(name = "tb_participantes")
 public class Participante {
 
     @Id
@@ -14,7 +16,14 @@ public class Participante {
 
     private String nome;
 
+    @Column(unique = true)
     private String email;
+
+    @ManyToMany
+    @JoinTable(name = "tb_participantes_atividades",
+            joinColumns = @JoinColumn(name = "atividades_id"),
+            inverseJoinColumns = @JoinColumn(name = "participantes_id"))
+    private List<Atividade> atividades = new ArrayList<>();
 
     public Participante() {
     }
@@ -47,6 +56,10 @@ public class Participante {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Atividade> getAtividades() {
+        return atividades;
     }
 
     @Override

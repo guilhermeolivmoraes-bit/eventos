@@ -1,11 +1,11 @@
-package com.guilherme.eventos;
+package com.guilherme.eventos.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
 
 @Entity
 @Table(name = "tb_categoria")
@@ -15,7 +15,11 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column (columnDefinition = "TEXT")
     private String descricao;
+
+    @OneToMany(mappedBy = "categoria")
+    private List<Atividade> atividades = new ArrayList<>();
 
     public Categoria() {
     }
@@ -52,5 +56,9 @@ public class Categoria {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public List<Atividade> getAtividades() {
+        return atividades;
     }
 }

@@ -2,11 +2,13 @@ package com.guilherme.eventos.entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_atividades")
-public class Atividades {
+public class Atividade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,14 +16,25 @@ public class Atividades {
 
     private String nome;
 
+    @Column (columnDefinition = "TEXT")
     private String descricao;
 
     private Double preco;
 
-    public Atividades() {
+    @ManyToMany(mappedBy = "atividades")
+    private Set<Participante> participantes = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
+    @OneToMany(mappedBy = "atividade")
+    private Set<Bloco> blocos = new HashSet<>();
+
+    public Atividade() {
     }
 
-    public Atividades(Integer id, String nome, String descricao, Double preco) {
+    public Atividade(Integer id, String nome, String descricao, Double preco) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -60,11 +73,18 @@ public class Atividades {
         this.preco = preco;
     }
 
+    public Set<Participante> getParticipantes() {
+        return participantes;
+    }
+    public Set<Bloco> getBlocos() {
+        return blocos;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
 
-        Atividades that = (Atividades) o;
+        Atividade that = (Atividade) o;
         return Objects.equals(id, that.id);
     }
 
